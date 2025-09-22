@@ -213,6 +213,9 @@ class MLUCADashboard {
 
         // Criar gráficos
         this.createCharts();
+
+        // Atualizar tabela de performance
+        this.updatePerformanceTable();
     }
 
     updateKPIs() {
@@ -241,6 +244,90 @@ class MLUCADashboard {
         const vol = lastData['Vol (ano)'] || 0;
         document.querySelector('#kpiVolatilidade .kpi-value').textContent = 
             this.formatPercentage(vol);
+    }
+
+    updatePerformanceTable() {
+        if (this.data.length === 0) return;
+
+        const lastData = this.data[this.data.length - 1];
+        const currentYear = new Date(lastData['Mês']).getFullYear();
+        const previousYear = currentYear - 1;
+
+        // Procurar dados de dezembro do ano anterior para cálculo YTD
+        const decemberData = this.findDecemberData(previousYear);
+
+        // Dados do mês (última linha)
+        const monthMLUCA = (lastData['MLUCA (mês)'] || 0) * 100;
+        const monthIBOV = (lastData['IBOV (mes)'] || 0) * 100;
+        const monthCDI = (lastData['CDI (mês)'] || 0) * 100;
+
+        // Dados acumulados (desde o início)
+        const allMLUCA = (lastData['MLUCA (acc)'] || 0) * 100;
+        const allIBOV = (lastData['IBOV (acc)'] || 0) * 100;
+        const allCDI = (lastData['CDI (acc)'] || 0) * 100;
+
+        // Calcular YTD
+        let ytdMLUCA = 0, ytdIBOV = 0, ytdCDI = 0;
+        if (decemberData) {
+            ytdMLUCA = ((lastData['MLUCA (cota)'] - decemberData['MLUCA (cota)']) / decemberData['MLUCA (cota)']) * 100;
+            ytdIBOV = ((lastData['IBOV (pts)'] - decemberData['IBOV (pts)']) / decemberData['IBOV (pts)']) * 100;
+            ytdCDI = ((lastData['CDI (100)'] - decemberData['CDI (100)']) / decemberData['CDI (100)']) * 100;
+        }
+
+        // Atualizar tabela HTML
+        this.updateTableCell('mluca-month', monthMLUCA);
+        this.updateTableCell('mluca-ytd', ytdMLUCA);
+        this.updateTableCell('mluca-all', allMLUCA);
+
+        this.updateTableCell('ibov-month', monthIBOV);
+        this.updateTableCell('ibov-ytd', ytdIBOV);
+        this.updateTableCell('ibov-all', allIBOV);
+
+        this.updateTableCell('cdi-month', monthCDI);
+        this.updateTableCell('cdi-ytd', ytdCDI);
+        this.updateTableCell('cdi-all', allCDI);
+
+        console.log('Tabela de performance atualizada:', {
+            month: { mluca: monthMLUCA, ibov: monthIBOV, cdi: monthCDI },
+            ytd: { mluca: ytdMLUCA, ibov: ytdIBOV, cdi: ytdCDI },
+            all: { mluca: allMLUCA, ibov: allIBOV, cdi: allCDI }
+        });
+    }
+
+    findDecemberData(year) {
+        // Procurar dezembro do ano especificado
+        const decemberData = this.data.filter(item => {
+            const itemDate = new Date(item['Mês']);
+            return itemDate.getFullYear() === year && itemDate.getMonth() === 11;
+        });
+
+        if (decemberData.length > 0) {
+            return decemberData[decemberData.length - 1];
+        }
+
+        // Se não encontrar dezembro, pegar o último registro do ano
+        const yearData = this.data.filter(item => {
+            return new Date(item['Mês']).getFullYear() === year;
+        });
+
+        return yearData.length > 0 ? yearData[yearData.length - 1] : null;
+    }
+
+    updateTableCell(cellId, value) {
+        const cell = document.getElementById(cellId);
+        if (cell) {
+            const formattedValue = this.formatPercentage(value / 100, true);
+            cell.textContent = formattedValue;
+
+            // Aplicar classe de cor
+            if (value >= 0.01) {
+                cell.className = 'positive';
+            } else if (value <= -0.01) {
+                cell.className = 'negative';
+            } else {
+                cell.className = 'neutral';
+            }
+        }
     }
 
     createCharts() {
@@ -532,6 +619,7 @@ class MLUCADashboard {
 
         this.updateKPIs();
         this.createCharts();
+        // Não atualizar a tabela de performance pois ela sempre usa todos os dados
     }
 
     refreshData() {

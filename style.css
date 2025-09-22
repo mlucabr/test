@@ -32,7 +32,7 @@ body {
     padding-top: var(--header-height);
 }
 
-/* Header */
+/* Header com logo */
 .header {
     position: fixed;
     top: 0;
@@ -54,17 +54,23 @@ body {
     justify-content: space-between;
 }
 
-.logo h1 {
-    color: var(--mluca-primary);
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.logo span {
+.logo-image {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text span {
     color: var(--mluca-text-light);
     font-size: 12px;
     font-weight: 400;
+    display: block;
 }
 
 .header-title h2 {
@@ -367,6 +373,9 @@ body {
     font-weight: 600;
     color: var(--mluca-text);
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .chart-controls {
@@ -400,6 +409,82 @@ body {
 #fundamentalsChart {
     height: var(--chart-fundamentals-height) !important;
     width: 100% !important;
+}
+
+/* Tabela de Comparação de Performance */
+.performance-comparison {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin: var(--section-margin) 0;
+}
+
+.performance-comparison .chart-header {
+    background: var(--mluca-primary);
+    color: white;
+    border-bottom: none;
+}
+
+.performance-comparison .chart-header h3 {
+    color: white;
+}
+
+.performance-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.performance-table thead th {
+    background: var(--mluca-primary);
+    color: white;
+    padding: 16px 20px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 13px;
+}
+
+.performance-table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.performance-table tbody tr:hover {
+    background: #edf2f7;
+    transition: background-color 0.2s ease;
+}
+
+.performance-table td {
+    padding: 16px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.performance-table .asset-name {
+    text-align: left;
+    font-weight: 700;
+    color: var(--mluca-text);
+    background: #f7fafc !important;
+    font-size: 16px;
+}
+
+.performance-table .positive {
+    color: var(--mluca-success);
+    font-weight: 700;
+}
+
+.performance-table .negative {
+    color: var(--mluca-danger);
+    font-weight: 700;
+}
+
+.performance-table .neutral {
+    color: var(--mluca-text);
+    font-weight: 600;
 }
 
 /* Footer */
@@ -472,6 +557,12 @@ body {
     .kpi-value {
         font-size: 24px;
     }
+
+    .performance-table th,
+    .performance-table td {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -494,8 +585,12 @@ body {
         font-size: 18px;
     }
 
-    .logo h1 {
-        font-size: 22px;
+    .logo-image {
+        height: 36px;
+    }
+
+    .logo-text span {
+        font-size: 10px;
     }
 
     /* KPIs em grid 2x2 no mobile */
@@ -548,6 +643,21 @@ body {
     #fundamentalsChart {
         height: 250px !important;
     }
+
+    /* Tabela responsiva */
+    .performance-table {
+        font-size: 13px;
+    }
+
+    .performance-table th,
+    .performance-table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .performance-table .asset-name {
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -581,6 +691,16 @@ body {
     #fundamentalsChart {
         height: 250px !important;
     }
+
+    .performance-table th,
+    .performance-table td {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .performance-table .asset-name {
+        font-size: 12px;
+    }
 }
 
 /* Utility classes */
@@ -604,6 +724,7 @@ body {
     animation: fadeIn 0.6s ease-out;
 }
 
-.chart-container {
+.chart-container,
+.performance-comparison {
     animation: fadeIn 0.8s ease-out;
 }

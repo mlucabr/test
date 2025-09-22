@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLUCA - Dashboard de Performance</title>
+    <link rel="icon" type="image/jpeg" href="icomluca.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="icomluca.jpg">
+    <link rel="apple-touch-icon" href="icomluca.jpg">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,8 +19,10 @@
         <div class="header-container">
             <div class="logo-section">
                 <div class="logo">
-                    <h1>MLUCA</h1>
-                    <span>Inteligência Financeira</span>
+                    <img src="logomluca.jpg" alt="MLUCA" class="logo-image">
+                    <div class="logo-text">
+                        <span>Inteligência Financeira</span>
+                    </div>
                 </div>
             </div>
             <div class="header-title">
@@ -126,7 +131,7 @@
                 </div>
             </section>
 
-            <!-- Gráficos empilhados verticalmente -->
+            <!-- Seção de gráficos empilhados verticalmente -->
             <section class="charts-section">
                 <!-- Gráfico de Performance - Full Width -->
                 <div class="chart-container">
@@ -142,6 +147,43 @@
                     <div class="chart-wrapper">
                         <canvas id="performanceChart"></canvas>
                     </div>
+                </div>
+
+                <!-- Tabela de Comparação de Performance -->
+                <div class="performance-comparison">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-table"></i> Comparação de Performance</h3>
+                    </div>
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>MÊS</th>
+                                <th>YTD</th>
+                                <th>ALL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="asset-name"><strong>MLUCA</strong></td>
+                                <td id="mluca-month">--</td>
+                                <td id="mluca-ytd">--</td>
+                                <td id="mluca-all">--</td>
+                            </tr>
+                            <tr>
+                                <td class="asset-name"><strong>IBOV</strong></td>
+                                <td id="ibov-month">--</td>
+                                <td id="ibov-ytd">--</td>
+                                <td id="ibov-all">--</td>
+                            </tr>
+                            <tr>
+                                <td class="asset-name"><strong>CDI</strong></td>
+                                <td id="cdi-month">--</td>
+                                <td id="cdi-ytd">--</td>
+                                <td id="cdi-all">--</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Gráfico de Fundamentos - Full Width -->
