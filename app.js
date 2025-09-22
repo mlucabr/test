@@ -521,7 +521,7 @@ class MLUCADashboard {
                         yAxisID: 'y'
                     },
                     {
-                        label: 'GAP de Risco (%)',
+                        label: 'GAP para Alvo (%)',
                         data: gapData,
                         borderColor: '#1a365d',
                         backgroundColor: 'rgba(26, 54, 93, 0.1)',
@@ -583,7 +583,7 @@ class MLUCADashboard {
                         position: 'right',
                         title: {
                             display: true,
-                            text: 'GAP de Risco (%)'
+                            text: 'GAP para Alvo (%)'
                         },
                         grid: {
                             drawOnChartArea: false,
