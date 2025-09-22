@@ -1,0 +1,609 @@
+/* Reset e base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Cores MLUCA */
+    --mluca-primary: #1a365d;
+    --mluca-secondary: #2c5aa0;
+    --mluca-light: #f7fafc;
+    --mluca-success: #38a169;
+    --mluca-danger: #e53e3e;
+    --mluca-warning: #d69e2e;
+    --mluca-text: #2d3748;
+    --mluca-text-light: #718096;
+
+    /* Layout spacing */
+    --header-height: 80px;
+    --kpi-height: 120px;
+    --chart-performance-height: 400px;
+    --chart-fundamentals-height: 350px;
+    --section-margin: 40px;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--mluca-light);
+    color: var(--mluca-text);
+    line-height: 1.6;
+    padding-top: var(--header-height);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo h1 {
+    color: var(--mluca-primary);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.logo span {
+    color: var(--mluca-text-light);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.header-title h2 {
+    color: var(--mluca-text);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-upload {
+    background: var(--mluca-secondary);
+    color: white;
+}
+
+.btn-upload:hover {
+    background: var(--mluca-primary);
+    transform: translateY(-2px);
+}
+
+.btn-refresh {
+    background: var(--mluca-light);
+    color: var(--mluca-text);
+    border: 1px solid #e2e8f0;
+    width: 48px;
+    padding: 12px;
+    justify-content: center;
+}
+
+.btn-refresh:hover {
+    background: #e2e8f0;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+    min-height: calc(100vh - var(--header-height) - 120px);
+}
+
+/* Upload Section */
+.upload-section {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.upload-area {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: var(--mluca-secondary);
+    background: #f7fafc;
+}
+
+.upload-icon i {
+    font-size: 48px;
+    color: var(--mluca-secondary);
+    margin-bottom: 20px;
+}
+
+.upload-text h3 {
+    color: var(--mluca-text);
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.upload-text p {
+    color: var(--mluca-text-light);
+    margin-bottom: 25px;
+}
+
+.btn-primary {
+    background: var(--mluca-secondary);
+    color: white;
+    font-size: 16px;
+    padding: 15px 30px;
+}
+
+.btn-primary:hover {
+    background: var(--mluca-primary);
+    transform: translateY(-2px);
+}
+
+.upload-status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: none;
+}
+
+.upload-status.success {
+    background: #f0fff4;
+    color: var(--mluca-success);
+    border: 1px solid #9ae6b4;
+}
+
+.upload-status.error {
+    background: #fed7d7;
+    color: var(--mluca-danger);
+    border: 1px solid #feb2b2;
+}
+
+.upload-status.info {
+    background: #ebf8ff;
+    color: var(--mluca-secondary);
+    border: 1px solid #90cdf4;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-margin);
+}
+
+/* KPIs Section - Layout horizontal único */
+.kpis-section {
+    margin-bottom: var(--section-margin);
+}
+
+.kpis-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.kpi-card {
+    background: white;
+    padding: 24px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: var(--kpi-height);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kpi-icon i {
+    font-size: 20px;
+    color: white;
+}
+
+#kpiPerformance .kpi-icon {
+    background: var(--mluca-secondary);
+}
+
+#kpiVsIbov .kpi-icon {
+    background: var(--mluca-success);
+}
+
+#kpiDividendYield .kpi-icon {
+    background: var(--mluca-warning);
+}
+
+#kpiVolatilidade .kpi-icon {
+    background: var(--mluca-primary);
+}
+
+.kpi-content {
+    flex: 1;
+}
+
+.kpi-content h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mluca-text-light);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--mluca-text);
+    margin-bottom: 4px;
+}
+
+.kpi-subtitle {
+    font-size: 12px;
+    color: var(--mluca-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Controls Section */
+.controls-section {
+    margin-bottom: 30px;
+}
+
+.controls-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: var(--mluca-text);
+}
+
+.form-select {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    color: var(--mluca-text);
+    min-width: 150px;
+}
+
+.data-info {
+    font-size: 14px;
+    color: var(--mluca-text-light);
+    font-weight: 500;
+}
+
+/* Charts Section - Layout vertical empilhado */
+.charts-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-margin);
+}
+
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.chart-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f7fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--mluca-text);
+    margin: 0;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+    background: var(--mluca-light);
+    color: var(--mluca-text);
+    border: 1px solid #e2e8f0;
+}
+
+.btn-sm:hover {
+    background: #e2e8f0;
+}
+
+.chart-wrapper {
+    padding: 24px;
+    position: relative;
+}
+
+/* Altura específica para cada gráfico */
+#performanceChart {
+    height: var(--chart-performance-height) !important;
+    width: 100% !important;
+}
+
+#fundamentalsChart {
+    height: var(--chart-fundamentals-height) !important;
+    width: 100% !important;
+}
+
+/* Footer */
+.footer {
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.footer-content p {
+    color: var(--mluca-text-light);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    text-align: center;
+}
+
+.loading-spinner i {
+    font-size: 48px;
+    color: var(--mluca-secondary);
+    margin-bottom: 20px;
+}
+
+.loading-spinner p {
+    font-size: 18px;
+    color: var(--mluca-text);
+    font-weight: 500;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .main-container {
+        max-width: 100%;
+        padding: 20px 15px 40px;
+    }
+
+    .kpis-grid {
+        gap: 15px;
+    }
+
+    .kpi-card {
+        padding: 20px 16px;
+        min-height: 100px;
+    }
+
+    .kpi-value {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --header-height: 70px;
+        --section-margin: 25px;
+    }
+
+    body {
+        padding-top: var(--header-height);
+    }
+
+    .header-container {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .header-title h2 {
+        font-size: 18px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    /* KPIs em grid 2x2 no mobile */
+    .kpis-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .kpi-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 16px 12px;
+        min-height: 90px;
+    }
+
+    .kpi-content h3 {
+        font-size: 12px;
+    }
+
+    .kpi-value {
+        font-size: 20px;
+    }
+
+    .kpi-subtitle {
+        font-size: 11px;
+    }
+
+    .controls-container {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .chart-header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .chart-wrapper {
+        padding: 16px;
+    }
+
+    /* Altura reduzida para mobile */
+    #performanceChart {
+        height: 300px !important;
+    }
+
+    #fundamentalsChart {
+        height: 250px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        padding: 15px 10px 30px;
+    }
+
+    .kpi-card {
+        padding: 12px;
+        min-height: 80px;
+    }
+
+    .kpi-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .kpi-icon i {
+        font-size: 16px;
+    }
+
+    .kpi-value {
+        font-size: 18px;
+    }
+
+    .chart-wrapper {
+        padding: 12px;
+    }
+
+    #performanceChart,
+    #fundamentalsChart {
+        height: 250px !important;
+    }
+}
+
+/* Utility classes */
+.text-center { text-align: center; }
+.text-success { color: var(--mluca-success); }
+.text-danger { color: var(--mluca-danger); }
+.text-warning { color: var(--mluca-warning); }
+.font-weight-bold { font-weight: 600; }
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-content {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.kpi-card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.chart-container {
+    animation: fadeIn 0.8s ease-out;
+}

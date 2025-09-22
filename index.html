@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLUCA - Dashboard de Performance</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/read-excel-file@5.6.1/bundle/read-excel-file.min.js"></script>
+</head>
+<body>
+    <!-- Header Fixo -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo">
+                    <h1>MLUCA</h1>
+                    <span>Inteligência Financeira</span>
+                </div>
+            </div>
+            <div class="header-title">
+                <h2>Dashboard de Performance</h2>
+            </div>
+            <div class="header-controls">
+                <div class="upload-control">
+                    <button class="btn btn-upload" id="uploadBtn">
+                        <i class="fas fa-upload"></i>
+                        Upload Excel
+                    </button>
+                    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;">
+                </div>
+                <button class="btn btn-refresh" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Upload Area (inicialmente visível) -->
+        <section class="upload-section" id="uploadSection">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="upload-text">
+                    <h3>Carregar Arquivo Excel</h3>
+                    <p>Arraste o arquivo <strong>mluca.xlsx</strong> aqui ou clique para selecionar</p>
+                    <button class="btn btn-primary" id="selectFileBtn">
+                        <i class="fas fa-file-excel"></i>
+                        Selecionar Arquivo
+                    </button>
+                </div>
+            </div>
+            <div class="upload-status" id="uploadStatus"></div>
+        </section>
+
+        <!-- Dashboard Content (inicialmente oculto) -->
+        <section class="dashboard-content" id="dashboardContent" style="display: none;">
+            <!-- KPIs em linha horizontal única -->
+            <section class="kpis-section">
+                <div class="kpis-grid">
+                    <div class="kpi-card" id="kpiPerformance">
+                        <div class="kpi-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Performance MLUCA</h3>
+                            <div class="kpi-value">--</div>
+                            <div class="kpi-subtitle">Acumulado</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card" id="kpiVsIbov">
+                        <div class="kpi-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>vs IBOVESPA</h3>
+                            <div class="kpi-value">--</div>
+                            <div class="kpi-subtitle">Diferença</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card" id="kpiDividendYield">
+                        <div class="kpi-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Dividend Yield</h3>
+                            <div class="kpi-value">--</div>
+                            <div class="kpi-subtitle">Atual</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card" id="kpiVolatilidade">
+                        <div class="kpi-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Volatilidade</h3>
+                            <div class="kpi-value">--</div>
+                            <div class="kpi-subtitle">Anual</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controles -->
+            <section class="controls-section">
+                <div class="controls-container">
+                    <div class="control-group">
+                        <label for="periodSelect">Período:</label>
+                        <select id="periodSelect" class="form-select">
+                            <option value="all">Todos os dados</option>
+                            <option value="12">Últimos 12 meses</option>
+                            <option value="6">Últimos 6 meses</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <span class="data-info" id="dataInfo">28 registros carregados</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gráficos empilhados verticalmente -->
+            <section class="charts-section">
+                <!-- Gráfico de Performance - Full Width -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Performance Acumulada vs Benchmarks</h3>
+                        <div class="chart-controls">
+                            <button class="btn btn-sm" id="exportPerformance">
+                                <i class="fas fa-download"></i>
+                                Exportar PNG
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Fundamentos - Full Width -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Análise Fundamentalista</h3>
+                        <div class="chart-controls">
+                            <button class="btn btn-sm" id="exportFundamentals">
+                                <i class="fas fa-download"></i>
+                                Exportar PNG
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="fundamentalsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 MLUCA Inteligência Financeira. Todos os direitos reservados.</p>
+            <p>Dashboard de monitoramento de performance para clube de investimentos.</p>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processando dados...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
